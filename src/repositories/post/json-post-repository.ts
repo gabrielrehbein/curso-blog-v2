@@ -11,7 +11,7 @@ const JSON_POSTS_FILE_PATH = resolve(
   'seed',
   'posts.json',
 );
-const SIMULATE_WAIT_IN_MS = 5000;
+const SIMULATE_WAIT_IN_MS = 0;
 
 export class JsonPostRepository implements PostRepository {
   private async simulateWait() {
@@ -43,5 +43,19 @@ export class JsonPostRepository implements PostRepository {
     if (!post) throw new Error('Post não encontrado');
 
     return post;
+  }
+
+  async findRecentPost(): Promise<PostModel> {
+    const posts = await this.findAll();
+      if(posts.length <= 0){
+      throw new Error("Post não encontrado");
+    }
+    const sortedPosts = posts.toSorted(
+      (a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
+    );
+
+    return sortedPosts.at(-1)!;
   }
 }
