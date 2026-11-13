@@ -1,14 +1,14 @@
-import { postRepository } from "@/repositories/post";
 import { PostCoverImage } from "../PostCoverImage";
 import { PostHeading } from "../PostHeading";
+import { formatDatetime } from "@/utils/date";
+import { findAllPublicPosts } from "@/lib/cache/post/post-cache";
 
 export async function PostFeatured() {
-  const recentPost = await postRepository.findRecentPost();
-  const formatador = new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'full',
-    timeStyle: 'short'
-  });
+  const posts = await findAllPublicPosts();
+  const recentPost = posts[0];
+
   return (
+
     <section className='grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group overflow-hidden  rounded'>
       <PostCoverImage
         linkProps={
@@ -27,12 +27,13 @@ export async function PostFeatured() {
         }
       />
       <div className='w-full'>
-        <time className='text-slate-600 text-sm' dateTime={recentPost.createdAt}>{formatador.format(new Date(recentPost.createdAt))}</time>
+        <time className='text-slate-600 text-sm' dateTime={recentPost.createdAt}>{formatDatetime(recentPost.createdAt)}</time>
         <PostHeading as='h1' url='#'>{recentPost.title}</PostHeading>
         <p className='text-justify'>
           {recentPost.excerpt}
         </p>
       </div>
     </section>
+
   )
 }
