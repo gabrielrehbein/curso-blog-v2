@@ -1,10 +1,10 @@
 import { PostCoverImage } from "../PostCoverImage";
 import { PostHeading } from "../PostHeading";
 import { formatDatetime } from "@/utils/date";
-import { findAllPublicPosts } from "@/lib/cache/post/post-cache";
+import { findAllPublicPostsCached } from "@/lib/cache/post/post-cache";
 
 export async function PostFeatured() {
-  const posts = await findAllPublicPosts();
+  const posts = await findAllPublicPostsCached();
   const recentPost = posts[0];
 
   return (
