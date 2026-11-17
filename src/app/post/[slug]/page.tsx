@@ -1,27 +1,33 @@
+import { PostCoverImage } from "@/components/PostCoverImage";
+import { PostFeatured } from "@/components/PostFeatured";
+import { PostHeading } from "@/components/PostHeading";
 import { findPostBySlugCached } from "@/lib/cache/post/post-cache";
-import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
 
 
 type PostSlugPageProps = {
-  params: Promise<{slug: string}>
+  params: Promise<{ slug: string }>
 }
 
-export default async function PostSlugPage({ params } : PostSlugPageProps){
+export async function generateMetadata({ params }: PostSlugPageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  let post;
-  try {
-    post = await findPostBySlugCached(slug);
+  const post = await findPostBySlugCached(slug);
+  return {
+    title: post.title,
+    description: post.excerpt
   }
-  catch {
-    post = undefined;
-  }
+}
 
-  if(!post) notFound();
+export default async function PostSlugPage({ params }: PostSlugPageProps) {
+  const { slug } = await params;
+
+  const post = await findPostBySlugCached(slug);
 
   return (
-    <div>
-      {post.title}
+    <div >
+      <Image src={ } />
     </div>
   )
 }
