@@ -2,6 +2,9 @@ import { findPostBySlugCached } from "@/lib/cache/post/post-cache"
 import Image from "next/image";
 import { PostHeading } from "../PostHeading";
 import { PostSummary } from "../PostSummary";
+import ReactMarkDown from "react-markdown"
+import rehypeSanitize from "rehype-sanitize";
+import remarkGfm from "remark-gfm";
 
 type SinglePostPostProps = {
   slug: string
@@ -30,8 +33,10 @@ export async function SinglePost({ slug }: SinglePostPostProps) {
             title={post.title}
           />
         </section>
-        <section>
-          {post.content}
+        <section className="prose lg:prose-xl">
+          <ReactMarkDown rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
+            {post.content}
+          </ReactMarkDown>
         </section>
       </div>
     </div>
