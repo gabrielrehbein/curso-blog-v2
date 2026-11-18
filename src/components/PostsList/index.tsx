@@ -26,7 +26,7 @@ export async function PostsList() {
                 }
               }
             />
-            <PostSummary createdAt={post.createdAt} excerpt={post.excerpt} title={post.title} />
+            <PostSummary url={`/post/${post.slug}`} createdAt={post.createdAt} excerpt={post.excerpt} title={post.title} />
           </div>
         )
 

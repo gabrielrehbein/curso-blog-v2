@@ -2,6 +2,7 @@ import { PostCoverImage } from "../PostCoverImage";
 import { PostHeading } from "../PostHeading";
 import { formatDatetime } from "@/utils/date";
 import { findAllPublicPostsCached } from "@/lib/cache/post/post-cache";
+import { PostSummary } from "../PostSummary";
 
 export async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
@@ -13,7 +14,7 @@ export async function PostFeatured() {
       <PostCoverImage
         linkProps={
           {
-            href: "/",
+            href: `post/${recentPost.slug}`,
           }
         }
         imageProps={
@@ -26,13 +27,13 @@ export async function PostFeatured() {
           }
         }
       />
-      <div className='w-full'>
-        <time className='text-slate-600 text-sm' dateTime={recentPost.createdAt}>{formatDatetime(recentPost.createdAt)}</time>
-        <PostHeading as='h1' url='#'>{recentPost.title}</PostHeading>
-        <p className='text-justify'>
-          {recentPost.excerpt}
-        </p>
-      </div>
+      <PostSummary
+        author={recentPost.author}
+        createdAt={recentPost.createdAt}
+        excerpt={recentPost.excerpt}
+        title={recentPost.title}
+        url={`post/${recentPost.slug}`}
+      />
     </section>
 
   )
