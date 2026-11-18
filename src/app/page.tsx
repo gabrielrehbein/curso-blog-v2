@@ -9,11 +9,11 @@ export default async function HomePage() {
 
   return (
       <>
-        <Suspense fallback={<SpinLoader />} >
+        <Suspense fallback={<SpinLoader className='mb-16' />} >
           <PostFeatured />
         </Suspense>
         <section>
-          <Suspense fallback={<SpinLoader />} >
+          <Suspense fallback={<SpinLoader className='mb-16' />} >
             <PostsList />
           </Suspense>
         </section>

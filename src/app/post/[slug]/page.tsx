@@ -1,8 +1,9 @@
-import { PostCoverImage } from "@/components/PostCoverImage";
-import { PostFeatured } from "@/components/PostFeatured";
-import { PostHeading } from "@/components/PostHeading";
+
+import { SpinLoader } from "@/components/SpinLoader";
+import { SinglePost } from "@/components/SinglePost";
 import { findPostBySlugCached } from "@/lib/cache/post/post-cache";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 
 
@@ -23,11 +24,9 @@ export async function generateMetadata({ params }: PostSlugPageProps): Promise<M
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
   const { slug } = await params;
 
-  const post = await findPostBySlugCached(slug);
-
   return (
-    <div >
-      <Image src={ } />
-    </div>
+    <Suspense fallback={<SpinLoader />} >
+      <SinglePost slug={slug} />
+    </Suspense>
   )
 }
